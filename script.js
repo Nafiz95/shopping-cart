@@ -29,9 +29,18 @@ $(document).ready(function(){
       colDiv2.append(h5);
       var cardTxt=$('<p>').addClass('card-text').text('$'+product.price);
       colDiv2.append(cardTxt);
-      btnPrimary=$('<button>').addClass('btn btn-primary').text('Add to Cart');
+      
+      btnPrimary=$('<button>').addClass('btn btn-primary').text('Add to Cart').attr('id','addCart'+index);
       colDiv2.append(btnPrimary);
       $('#prod-row').append(colDiv);
+      
+      btnPrimary.click(function(event){
+        var cartItem= products[event.target.id];
+        cartItem.quantity=1;
+        cart.items.push(cartItem);
+        $('#itemNo').text(cart.items.length);
+        localStorage.setItem('cart',JSON.stringify(cart));
+      });
     });
   
   $("#showCartBtn").click(function(){
