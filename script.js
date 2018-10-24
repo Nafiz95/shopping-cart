@@ -6,40 +6,49 @@ var products = [
   {name: "Old Ford Car Model", price: "46", image: "https://s3.amazonaws.com/mernbook/marketplace/Ford.jpg"},
   {name: "Storm Trooper Figurine", price: "23", image: "https://s3.amazonaws.com/mernbook/marketplace/stormtrooper-1995015_960_720.jpg"}
 ];
-var cart =  localStorage.getItem('cart') ? JSON.parse(localStorage.getItem('cart')): {
+var cart = localStorage.getItem('cart') ? JSON.parse(localStorage.getItem('cart')):{
   items: [],
   total: 0
 };
+
 localStorage.setItem('cart',JSON.stringify(cart));
 
 $(document).ready(function(){
+    $('#itemNo').text(cart.items.length);
+    
+    products.forEach(function(product, index){
+      var colDiv = $('<div>').addClass('col-md-4');
+      var cardDiv = $('<div>').addClass('card');
+      var prodImg = $('<img>').addClass('card-img-top');
+      prodImg.attr('src', product.image);
+      cardDiv.append(prodImg);
+      colDiv.append(cardDiv);
+      var colDiv2=$('<div>').addClass("card-body");  
+      cardDiv.append(colDiv2);
+      var h5=$('<h5>').addClass('card-title').text(product.name);;
+      colDiv2.append(h5);
+      var cardTxt=$('<p>').addClass('card-text').text('$'+product.price);
+      colDiv2.append(cardTxt);
+      btnPrimary=$('<button>').addClass('btn btn-primary').text('Add to Cart');
+      colDiv2.append(btnPrimary);
+      $('#prod-row').append(colDiv);
+    });
   
-  products.forEach(function(products,index)
-  {
-    var colDiv=$('div').addClass('col-md-4');
-    var cardDiv=$('div').addClass('card');
-    $('#products-row').append(colDiv);
-  });
-  
-  $("#itemNo").text(cart.items.length);
   $("#showCartBtn").click(function(){
     $("#cart").show();
     $("#products").hide();
+    $("#showCartBtn").hide();
   });
- 
-  $("#close").click(function(){
+  
+  $("#showProdBtn").click(function(){
     $("#cart").hide();
     $("#products").show();
+    $("#showCartBtn").show();
   });
-  
- 
-  
   
   console.log("Start here");
   // Basic tasks
   // 1. Show / hide cart section on button click (Cart button / close cutton)
-  
-  
   // 2. Dynamically load products to view
   // 3. Dynamically show total items in Cart
   // 4. Add to cart button functionality
